@@ -17,12 +17,12 @@ namespace Linear_List
         /// <summary>
         /// Указатель на первый элемент списка
         /// </summary>
-        private Element Head { get; set; }
+        protected Element Head { get; set; }
 
         /// <summary>
         /// Длинна списка (отсчет с 1)
         /// </summary>
-        public int Length { get; private set; }
+        public int Length { get; protected set; }
         #endregion
 
         #region Вложенные классы
@@ -30,18 +30,18 @@ namespace Linear_List
         /// <summary>
         /// Представляет элемент линейного списка
         /// </summary>
-        internal class Element
+        internal protected class Element
         {
             #region Свойства
             /// <summary>
             /// Значение элемента
             /// </summary>
-            internal T Value { get; set; }
+            internal protected T Value { get; set; }
 
             /// <summary>
             /// Указатель на следующий элемент
             /// </summary>
-            internal Element Next { get; set; }
+            internal protected Element Next { get; set; }
             #endregion
 
             #region Конструкторы

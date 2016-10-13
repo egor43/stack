@@ -29,7 +29,7 @@ namespace ConsoleTestMyStack
                 Console.WriteLine(e.Message);
             }
             Console.WriteLine(ms.Print());
-            Console.WriteLine(ms.Count);
+            Console.WriteLine(ms.Length);
             Console.ReadLine();
         }
     }
