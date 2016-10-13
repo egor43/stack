@@ -8,6 +8,10 @@ using System.Reflection;
 
 namespace MyStack
 {
+    /// <summary>
+    /// Представляет стек открытого структурного типа.
+    /// </summary>
+    /// <typeparam name="T">указатель места заполнения (ограничение: struct)</typeparam>
     public class MyStack<T> where T : struct
     {
         #region Polya
@@ -16,10 +20,16 @@ namespace MyStack
         #endregion
 
         #region Svoistva
+        /// <summary>
+        /// Длинна списка (отсчет с 1)
+        /// </summary>
         public int Count { get; private set; }
         #endregion
 
         #region Konstryctory
+        /// <summary>
+        /// Инициализирует стек значениями по умолчанию
+        /// </summary>
         public MyStack()
         {
             Count = 0;
