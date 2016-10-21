@@ -89,18 +89,93 @@ namespace ConsoleTestMyStack
                     }
                 case 3:
                     {
+                        while (true)
+                        {
+                            Console.WriteLine("Peek");
+                            if (mystack.Length > 0)
+                            {
+                                Console.WriteLine("Возвращенное значение: {0}", mystack.Peek());
+                                Console.WriteLine("Для продолжения нажмите любую клавишу");
+                                Console.ReadLine();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Стек пуст.");
+                                System.Threading.Thread.Sleep(800);
+                                Console.Clear();
+                            }
+                            break;
+                        }
                         break;
                     }
                 case 4:
                     {
+                        while (true)
+                        {
+                            Console.WriteLine("Contains");
+                            if(mystack.Length>0)
+                            {
+                                Console.WriteLine("Введите значение для поиска:");
+                                if (Int32.TryParse(Console.ReadLine(), out value))
+                                {
+                                    if (mystack.Contains(value))
+                                    {
+                                        Console.WriteLine("Стек содержит элемент со значением {0}", value);
+                                        Console.WriteLine("Для продолжения нажмите любую клавишу");
+                                        Console.ReadLine();
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Стек НЕ содержит элемент со значением {0}", value);
+                                        Console.WriteLine("Для продолжения нажмите любую клавишу");
+                                        Console.ReadLine();
+                                    }
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Введено неверное значение.");
+                                    System.Threading.Thread.Sleep(800);
+                                    Console.Clear();
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Стек пуст.");
+                                System.Threading.Thread.Sleep(800);
+                                Console.Clear();
+                            }
+                            break;
+                        }
                         break;
                     }
                 case 5:
                     {
+                        if(mystack.Length>0)
+                        {
+                            Console.WriteLine("Print");
+                            Console.WriteLine(mystack.Print());
+                            Console.WriteLine("Для продолжения нажмите любую клавишу");
+                            Console.ReadLine();
+                            
+                        }
+                        else
+                        {
+                            Console.WriteLine("Стек пуст.");
+                            System.Threading.Thread.Sleep(800);
+                            Console.Clear();
+                        }
                         break;
                     }
                 case 6:
                     {
+                        Console.WriteLine("Вы уверены, что хотите очистить список?");
+                        Console.WriteLine("1- ДА / 2 - НЕТ");
+                        int answer = -1;
+                        if (Int32.TryParse(Console.ReadLine(), out answer))
+                        {
+                            if (answer == 1) mystack.Clear();
+                        }
                         break;
                     }
                 default:
