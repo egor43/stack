@@ -23,11 +23,12 @@ namespace ConsoleTestMyStack
                 Console.WriteLine("4 - Contains (проверить наличие элемента в стеке)");
                 Console.WriteLine("5 - Print  (распечатать список)");
                 Console.WriteLine("6 - Очистить список");
+                Console.WriteLine("7 - Калькулятор");
                 Console.WriteLine("------------------------------------------------------");
                 Console.WriteLine("0 - Выход из программы");
                 if (Int32.TryParse(Console.ReadLine(), out result))
                 {
-                    if ((result > -1) && (result < 7))
+                    if ((result > -1) && (result < 8))
                     {
                         return result;
                     }
@@ -70,7 +71,7 @@ namespace ConsoleTestMyStack
                         while (true)
                         {
                             Console.WriteLine("Pop");
-                            if (mystack.Length>0)
+                            if (mystack.Length > 0)
                             {
                                 Console.WriteLine("Возвращенное значение: {0}", mystack.Pop());
                                 Console.WriteLine("Для продолжения нажмите любую клавишу");
@@ -81,7 +82,7 @@ namespace ConsoleTestMyStack
                                 Console.WriteLine("Стек пуст.");
                                 System.Threading.Thread.Sleep(800);
                                 Console.Clear();
-                                
+
                             }
                             break;
                         }
@@ -113,7 +114,7 @@ namespace ConsoleTestMyStack
                         while (true)
                         {
                             Console.WriteLine("Contains");
-                            if(mystack.Length>0)
+                            if (mystack.Length > 0)
                             {
                                 Console.WriteLine("Введите значение для поиска:");
                                 if (Int32.TryParse(Console.ReadLine(), out value))
@@ -151,13 +152,13 @@ namespace ConsoleTestMyStack
                     }
                 case 5:
                     {
-                        if(mystack.Length>0)
+                        if (mystack.Length > 0)
                         {
                             Console.WriteLine("Print");
                             Console.WriteLine(mystack.Print());
                             Console.WriteLine("Для продолжения нажмите любую клавишу");
                             Console.ReadLine();
-                            
+
                         }
                         else
                         {
@@ -176,6 +177,16 @@ namespace ConsoleTestMyStack
                         {
                             if (answer == 1) mystack.Clear();
                         }
+                        break;
+                    }
+                case 7:
+                    {
+                        Console.WriteLine("Калькулятор");
+                        Console.WriteLine("Введите выражение:");
+                        string str = Console.ReadLine();
+                        Console.WriteLine("Ответ: {0}", mystack.Calculate(str));
+                        Console.WriteLine("Для продолжения нажмите любую клавишу");
+                        Console.ReadLine();
                         break;
                     }
                 default:
@@ -201,6 +212,8 @@ namespace ConsoleTestMyStack
             {
                 ExecutionAction(SelectionAction(), mystack);
             }
+
+            //mystack.Calculate("(2+3)*4+10/2=");
 
             #region Тестовый код
             //MyStack<double> ms = new MyStack<double>();
