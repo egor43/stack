@@ -26,14 +26,63 @@ namespace MyStack
 
         #region Private Metody
 
-        #endregion
+        /// <summary>
+        /// Проверка строки на наличие недопустимых символов
+        /// </summary>
+        /// <param name="inputstring">строковое представление выражения</param>
+        /// <returns>true - если выражение не содержит недопустимые символы. false - если выражение содержит недопустимые символы.</returns>
+        private bool ValidationInputString(string inputstring)
+        {
+            if (inputstring[inputstring.Length - 1] != '=') inputstring += "=";
+            List<string> list = new List<string>();
+            int countznak = 0;
+            int countchisl = 0;
+            string str = "";
+            foreach (var v in inputstring)
+            {
+                switch (v)
+                {
+                    case ')':
+                    case '(':
+                    case '+':
+                    case '-':
+                    case '*':
+                    case '/':
+                    case '=':
+                        {
+                            countznak++;
+                            list.Add(str);
+                            str = "";
+                            break;
+                        }
+                    default:
+                        {
+                            str += v;
+                            break;
+                        }
+                }
+            }
+            foreach (var v in list)
+            {
+                double x = 0;
+                if (Double.TryParse(v, out x))
+                {
+                    countchisl += v.Length;
+                }
+            }
+            if (countchisl + countznak == inputstring.Length) return true;
+            return false;
+        }
 
-        #region Public Metody
-
-        public double Calculate(string str)
+        /// <summary>
+        /// Представляет введенное выражение в виде обратной Польской нотации
+        /// </summary>
+        /// <param name="inputstring">строковое представление выражения</param>
+        /// <returns>Возвращает лист, каждый элемент которого, соответствует элементу выражения в обратной Польской нотации</returns>
+        private List<string> CreateListString(string inputstring)
         {
             Stack<char> stackcalc = new Stack<char>();
-            string primer = str;
+            string primer = inputstring;
             if (primer[primer.Length - 1] != '=') primer += "=";
             string countstr = "";
             List<string> list = new List<string>();
@@ -132,76 +181,80 @@ namespace MyStack
                         }
                     default:
                         {
-                            double chislo;
-                            if (Double.TryParse(c.ToString(), out chislo))
-                            {
-                                countstr += c.ToString();
-                            }
+                            countstr += c.ToString();
                             break;
                         }
                 }
             }
-            int countint = 0;
-            double x1 = 0, x2 = 0;
-            Stack<double> countstack = new Stack<double>();
-            foreach (var v in list)
+            return list;
+        }
+
+        #endregion
+
+        #region Public Metody
+
+        /// <summary>
+        /// Производит вычисление выражения на основе обратной Польской нотации
+        /// </summary>
+        /// <param name="str">строковое представление выражения</param>
+        /// <returns>результат вычисления выражения</returns>
+        public double Calculate(string str)
+        {
+            if (ValidationInputString(str))
             {
-                if (countint == 0)
+                List<string> list = CreateListString(str);
+                double x1 = 0, x2 = 0;
+                Stack<double> countstack = new Stack<double>();
+                try
                 {
-                    if (Double.TryParse(v, out x1))
+                    foreach (var v in list)
                     {
-                        countint = 1;
-                        continue;
+                        if (Double.TryParse(v, out x1))
+                        {
+                            countstack.Push(x1);
+                            continue;
+                        }
+                        if (v == "+")
+                        {
+                            x2 = countstack.Pop();
+                            x1= countstack.Pop();
+                            countstack.Push(x1 + x2);
+                            continue;
+                        }
+                        if (v == "-")
+                        {
+                            x2 = countstack.Pop();
+                            x1 = countstack.Pop();
+                            countstack.Push(x1 - x2);
+                            continue;
+                        }
+                        if (v == "*")
+                        {
+                            x2 = countstack.Pop();
+                            x1 = countstack.Pop();
+                            countstack.Push(x1 * x2);
+                            continue;
+                        }
+                        if (v == "/")
+                        {
+                            x2 = countstack.Pop();
+                            x1 = countstack.Pop();
+                            countstack.Push(x1 / x2);
+                            continue;
+                        }
                     }
-                    else
-                    {
-                        x2 = countstack.Pop();
-                        x1 = countstack.Pop();
-                        countint = 2;
-                    }
+                    return countstack.Pop();
                 }
-                else if (countint == 1)
+                catch (InvalidOperationException)
                 {
-                    if (Double.TryParse(v, out x2))
-                    {
-                        countint = 2;
-                        continue;
-                    }
-                    else
-                    {
-                        x2 = countstack.Pop();
-                        countint = 2;
-                    }
-                }
-                if (countint == 2)
-                {
-                    if (v == "+")
-                    {
-                        countstack.Push(x1 + x2);
-                        countint = 0;
-                        continue;
-                    }
-                    if (v == "-")
-                    {
-                        countstack.Push(x1 - x2);
-                        countint = 0;
-                        continue;
-                    }
-                    if (v == "*")
-                    {
-                        countstack.Push(x1 * x2);
-                        countint = 0;
-                        continue;
-                    }
-                    if (v == "/")
-                    {
-                        countstack.Push(x1 / x2);
-                        countint = 0;
-                        continue;
-                    }
+                    throw new ArgumentException();
                 }
             }
-            return countstack.Pop();
+            else
+            {
+                throw new ArgumentException();
+            }
+
         }
 
         /// <summary>

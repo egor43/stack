@@ -184,7 +184,17 @@ namespace ConsoleTestMyStack
                         Console.WriteLine("Калькулятор");
                         Console.WriteLine("Введите выражение:");
                         string str = Console.ReadLine();
-                        Console.WriteLine("Ответ: {0}", mystack.Calculate(str));
+                        try
+                        {
+                            Console.WriteLine("Ответ: {0}", mystack.Calculate(str));
+                        }
+                        catch (ArgumentException)
+                        {
+                            Console.WriteLine("Введено неверное выражение!");
+                            Console.WriteLine("Для продолжения нажмите любую клавишу");
+                            Console.ReadLine();
+                            break;
+                        }
                         Console.WriteLine("Для продолжения нажмите любую клавишу");
                         Console.ReadLine();
                         break;
